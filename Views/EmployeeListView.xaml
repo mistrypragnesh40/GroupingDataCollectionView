@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModles="clr-namespace:GroupingDataCollectionView.ViewModels"
+             xmlns:models="clr-namespace:GroupingDataCollectionView.Models"
+             x:DataType="viewModles:EmployeeListViewModel"
+             x:Class="GroupingDataCollectionView.Views.EmployeeListView"
+             Title="EmployeeListView">
+    <StackLayout Margin="10,0,10,0" VerticalOptions="FillAndExpand">
+        <Label Text="Grouped Data Demo" FontSize="28" />
+
+        <CollectionView VerticalOptions="FillAndExpand" 
+                        IsGrouped="True" 
+                        ItemsSource="{Binding Employees}">
+            <CollectionView.GroupHeaderTemplate>
+                <DataTemplate x:DataType="models:EmployeeGroup">
+                    <HorizontalStackLayout Spacing="5">
+                        <Image Source="{Binding GroupIcon}" VerticalOptions="Center" HeightRequest="20" WidthRequest="20" />
+                        <Label Text="{Binding GroupTitle}" FontSize="28" />
+                        <HorizontalStackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Source={x:RelativeSource AncestorType={x:Type viewModles:EmployeeListViewModel}},Path=AddOrRemoveGroupDataCommand}" CommandParameter="{Binding .}" />
+                        </HorizontalStackLayout.GestureRecognizers>
+                    </HorizontalStackLayout>
+                </DataTemplate>
+            </CollectionView.GroupHeaderTemplate>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:EmployeeModel">
+                    <VerticalStackLayout Margin="0,5,0,5">
+                        <Frame Padding="10" >
+                            <Label VerticalTextAlignment="Center" Text="{Binding FullName}" FontSize="18" />
+                        </Frame>
+                    </VerticalStackLayout>
+                    
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+            <!--<CollectionView.GroupFooterTemplate>
+                <DataTemplate x:DataType="models:EmployeeGroup">
+                    <Label Text="{Binding FooterTitle}" FontSize="22" BackgroundColor="LightBlue"/>
+                </DataTemplate>
+            </CollectionView.GroupFooterTemplate>-->
+        </CollectionView>
+    </StackLayout>
+</ContentPage>
